@@ -1,12 +1,12 @@
 import express from 'express';
 import morgan from 'morgan'
+import {PORT} from './config/serverConfig.js'
 const app = express();
-const port = 4000;
 
 app.use(morgan('combined'));
 
 app.use(express.json());
-app.use(express.text());
+// app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/hello', (req, res) => {
@@ -25,7 +25,7 @@ app.get('/tweets/:tweet_id/comments/:comment_id', (req, res) => {
     });
 });
 app.get('/', (req, res) => {
-    return res.send("Hello");
+    return res.json({word:"hello"});
 });
 
 app.get('/home', (req, res) => {
@@ -40,6 +40,5 @@ app.use((req, res) => {
     });
 });
 
-app.listen(port, () => {
-    console.log("express working at", port);
-});
+await app.listen(PORT);
+console.log(`Server is running on port ${PORT}`);
